@@ -69,9 +69,14 @@ GH_TOKEN=xxx python3 tools/check-links.py
 为什么需要它：只查 Pages 的 `status == built` 是不够的 —— 构建成功和根路径有内容是两回事。
 有一个文档仓库根目录只有 `README.md`，没有 `index.html` / `index.md`，
 Jekyll 没有首页可渲染，站点根路径照样 404，而 Pages 状态明明白白是 `built`。
-用户点开才发现。
 
-所以这个脚本查的是：那个 URL 落到仓库里的那个文件，到底存在不存在。
+补上首页后又踩了第二个坑：**文件叫 `.html`，里面写的却是 Markdown 语法**。
+Jekyll 只对 `.md` 做 Markdown→HTML 转换，`.html` 里的 `# 标题` 原样输出，
+用户看到的就是带井号的源码。
+
+所以这个脚本查两件事：
+1. 那个 URL 落到仓库里的那个文件，到底存在不存在
+2. 如果是 `.html`，里面是不是混进了 Markdown 语法（`sniff_md_in_html`）
 
 ## 本地跑
 

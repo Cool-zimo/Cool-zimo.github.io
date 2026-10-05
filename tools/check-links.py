@@ -45,6 +45,27 @@ def exists(repo, path, br):
     return False, (d.get('code') if isinstance(d, dict) else 'unknown')
 
 
+def sniff_md_in_html(repo, path, br):
+    """.html 文件里如果主要是 Markdown 语法，Jekyll 不会转换，页面会显示成源码。"""
+    if not path.endswith('.html'):
+        return None
+    d = api(f'/repos/Cool-zimo/{repo}/contents/{path}?ref={br}')
+    if not isinstance(d, dict) or d.get('content') is None:
+        return None
+    try:
+        import re as _re
+        c = base64.b64decode(d['content'].replace('\n', '')).decode('utf-8', 'ignore')
+    except Exception:
+        return None
+    md_hits = len(_re.findall(r'^#{1,6} ', c, _re.M)) + len(_re.findall(r'^[-*] ', c, _re.M))
+    tag_hits = len(_re.findall(r'<[a-zA-Z][^>]*>', c))
+    # Markdown 行多而 HTML 标签少 → 基本可以断定是"后缀写错了"
+    if md_hits >= 3 and tag_hits < md_hits:
+        return f'里面是 Markdown 语法（{md_hits} 处 Markdown / {tag_hits} 个标签）。' \
+               f'Jekyll 只对 .md 做转换，.html 里的 # 会原样显示成井号 → 改成 .md 或写成真 HTML'
+    return None
+
+
 def check(repo, urlpath, label):
     """urlpath 形如 /al/zh/ 或 /tiny-md/demo.html"""
     r = api(f'/repos/Cool-zimo/{repo}')
@@ -69,10 +90,19 @@ def check(repo, urlpath, label):
     cands = [p]
     if not p.endswith('.html') and not p.endswith('.md'):
         cands += [p + '/index.html', p + '/index.md']
+    hit = None
     for c in cands:
         ok, code = exists(repo, c, br)
         if ok:
-            return True, f'{c} 存在'
+            hit = c
+            break
+    if hit:
+        # 文件存在还不够：.html 里写 Markdown 语法的话，Jekyll 不会转换，
+        # 用户看到的就是带井号的源码。这个文件后缀的坑真实踩过一次。
+        warn = sniff_md_in_html(repo, hit, br)
+        if warn:
+            return False, f'{hit} 存在，但 ' + warn
+        return True, f'{hit} 存在'
     # 源码里是 .md，Pages 上由 Jekyll 渲染成 .html —— 算通过但标出来
     if p.endswith('.html'):
         ok2, _ = exists(repo, p[:-5] + '.md', br)
