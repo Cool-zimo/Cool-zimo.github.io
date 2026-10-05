@@ -98,6 +98,15 @@ window.PROJECTS = [
 ];
 
 window.MINIS = [
+  { group: '文档',
+    name: 'COOL-DOC 文档站', icon: '📚', desc: '所有项目的文档集中在一个站里，中英双语，一个应用一个目录。',
+    live: 'https://cool-zimo.github.io/COOL-DOC/', repo: 'https://github.com/Cool-zimo/COOL-DOC', mc: '#a78bfa' },
+  { group: '文档',
+    name: 'AnyLearn 文档', icon: '🦉', desc: '格式规范、题型判分、怎么写书、评审发布。',
+    live: 'https://cool-zimo.github.io/COOL-DOC/al/', repo: 'https://github.com/Cool-zimo/COOL-DOC', mc: '#7c5cff' },
+  { group: '文档',
+    name: 'GitHub Drive 文档', icon: '📁', desc: '快速开始、用户指南、插件开发、常见问题。',
+    live: 'https://cool-zimo.github.io/COOL-DOC/github_drive/', repo: 'https://github.com/Cool-zimo/COOL-DOC', mc: '#22d3ee' },
   { group: 'GitHub Drive 生态',
     name: '桌面版（Electron）', icon: '🖥️', desc: '让插件能读写本地文件、执行系统命令，用权限模型兜住风险。',
     live: '', repo: 'https://github.com/Cool-zimo/github-drive-desktop', mc: '#7c5cff' },
@@ -115,7 +124,7 @@ window.MINIS = [
     live: '', repo: 'https://github.com/Cool-zimo/GD-Plugin-CoolClock', mc: '#22d3ee' },
   { group: 'GitHub Drive 生态',
     name: '使用文档', icon: '📖', desc: '使用指南 + 插件开发 + API 参考，单独一个 Pages 站。',
-    live: 'https://cool-zimo.github.io/github_drive_documentation/', repo: 'https://github.com/Cool-zimo/github_drive_documentation', mc: '#a78bfa' },
+    live: 'https://cool-zimo.github.io/COOL-DOC/github_drive/', repo: 'https://github.com/Cool-zimo/COOL-DOC', mc: '#a78bfa' },
 
   { group: '学习',
     name: 'Python 从零到进阶', icon: '🐍', desc: 'AnyLearn 的中文单本站，同样能在页面里跑代码、记笔记、排复习。',
@@ -125,7 +134,7 @@ window.MINIS = [
     live: '', repo: 'https://github.com/Cool-zimo/al-textbooks', mc: '#7c5cff' },
   { group: '学习',
     name: '第三方书籍索引', icon: '📇', desc: 'al-book 格式规范 + 收录索引，任何人都能提交自己的教材。',
-    live: 'https://cool-zimo.github.io/al-docs/', repo: 'https://github.com/Cool-zimo/al-docs', mc: '#22d3ee' },
+    live: 'https://cool-zimo.github.io/COOL-DOC/al/', repo: 'https://github.com/Cool-zimo/COOL-DOC', mc: '#22d3ee' },
 
   { group: '库与组件',
     name: 'tiny-md', icon: '📝', desc: '零依赖 Markdown + LaTeX 渲染器。先转义再生成标签，公式不用打 $ 也能渲染。',
@@ -162,6 +171,9 @@ window.TIMELINE = [
   { date: '2026.09', title: 'AnyLearn · 通学万义',
     desc: '从 python-tutorial 长出来的教程站。用 Pyodide 让代码在浏览器里真跑，加艾宾浩斯复习调度和节奏守护，后来扩成 25 本教材中英双语。',
     tags: ['Pyodide', '艾宾浩斯', '25 本教材'] },
+  { date: '2026.10', title: 'COOL-DOC',
+    desc: '文档散在四个仓库里，其中两个还是重复的、内容已经分叉。全部并进一个站：一个应用一个目录，中英双语，链接形如 COOL-DOC/al/文档名。',
+    tags: ['文档站', '中英双语', '目录式 URL'] },
   { date: '2026.10', title: 'CoverFit',
     desc: '图片裁切和转格式。连 BMP 和 ICO 的编码器都是自己写的 —— 浏览器根本不支持导出这两种格式，交给 toBlob 会静默退化成 PNG。',
     tags: ['Canvas', '自研编码器', '纯本地'] },
