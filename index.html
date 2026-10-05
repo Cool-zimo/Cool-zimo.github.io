@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cool-zimo · 作品集</title>
+<meta name="description" content="Cool-zimo 的作品集：AnyLearn 通学万义、GitHub Drive、仓鼠 Cangshu、CoverFit —— 纯前端、无后端、数据归你自己。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='25' font-size='24'>🦉</text></svg>">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- 背景：漂移的彩色光球 + 粒子 + 网格 -->
+<div class="bg" aria-hidden="true">
+  <span class="orb o1"></span><span class="orb o2"></span>
+  <span class="orb o3"></span><span class="orb o4"></span>
+  <span class="orb o5"></span>
+  <div class="grid-lines"></div>
+  <canvas class="stars" id="stars"></canvas>
+  <div class="noise"></div>
+</div>
+
+<!-- 滚动进度条 -->
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<!-- 顶栏 -->
+<header class="nav" id="nav">
+  <a class="brand" href="#top">
+    <span class="brand-mark">🦉</span>
+    <span class="brand-text">Cool<em>zimo</em></span>
+  </a>
+  <nav class="nav-links">
+    <a href="#projects">作品</a>
+    <a href="#more">更多</a>
+    <a href="#about">关于</a>
+  </nav>
+  <a class="nav-gh" href="https://github.com/Cool-zimo" target="_blank" rel="noopener">
+    <svg viewBox="0 0 16 16" width="15" height="15" fill="currentColor" aria-hidden="true">
+      <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/>
+    </svg>
+    <span>GitHub</span>
+  </a>
+</header>
+
+<main id="top">
+
+  <!-- ==================== HERO ==================== -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="badge reveal">
+        <span class="dot"></span>
+        <span>纯前端 · 无后端 · 数据归你自己</span>
+      </div>
+
+      <h1 class="reveal d1">
+        我做了一堆<br>
+        <span class="grad">不靠服务器</span> 也很好用的东西
+      </h1>
+
+      <p class="hero-sub reveal d2">
+        课程能在浏览器里真跑代码，网盘能直接挂在 GitHub 上，
+        仓库能像文件夹一样管理，图片能就地裁切转格式。<br>
+        <b>没有后端、没有数据库、没有埋点</b> —— 你的数据存在你自己的 GitHub 里。
+      </p>
+
+      <div class="hero-btns reveal d3">
+        <a class="btn primary" href="#projects">
+          看看作品
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a class="btn ghost" href="https://github.com/Cool-zimo" target="_blank" rel="noopener">
+          <svg viewBox="0 0 16 16" width="15" height="15" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+          所有仓库
+        </a>
+      </div>
+
+      <dl class="stats reveal d4" id="stats"></dl>
+    </div>
+
+    <div class="scroll-hint" aria-hidden="true">
+      <span>向下滚动</span>
+      <div class="mouse"><i></i></div>
+    </div>
+  </section>
+
+  <!-- ==================== 主打作品 ==================== -->
+  <section class="sec" id="projects">
+    <div class="sec-head reveal">
+      <span class="eyebrow">主打作品</span>
+      <h2>四个能直接用起来的东西</h2>
+      <p>点开就能用，大多只需要一个 GitHub Token。</p>
+    </div>
+
+    <div class="filters reveal" id="filters"></div>
+    <div class="cards" id="cards"></div>
+    <p class="empty" id="empty" hidden>没有匹配的作品。</p>
+  </section>
+
+  <!-- ==================== 其他 ==================== -->
+  <section class="sec" id="more">
+    <div class="sec-head reveal">
+      <span class="eyebrow">还有这些</span>
+      <h2>小工具与实验品</h2>
+      <p>同样是纯前端，随手做的小东西。</p>
+    </div>
+    <div class="minis" id="minis"></div>
+  </section>
+
+  <!-- ==================== 关于 ==================== -->
+  <section class="sec about" id="about">
+    <div class="about-card reveal">
+      <div class="about-glow"></div>
+      <span class="eyebrow">关于</span>
+      <h2>为什么都是这个路子</h2>
+      <div class="about-grid">
+        <div class="pill">
+          <b>不要后端</b>
+          <p>页面是静态的，托管在 GitHub Pages。没有服务器就没有运维，也不会哪天跑路。</p>
+        </div>
+        <div class="pill">
+          <b>数据在你自己手里</b>
+          <p>笔记、进度、配置全写进你自己的私有仓库。我看不到，也拿不到。</p>
+        </div>
+        <div class="pill">
+          <b>能真跑就别截图</b>
+          <p>教程里的代码用 Pyodide 在浏览器里真实执行，改一行立刻看到结果。</p>
+        </div>
+        <div class="pill">
+          <b>零依赖优先</b>
+          <p>能不引库就不引。加载快，也不怕 CDN 挂掉。</p>
+        </div>
+      </div>
+      <div class="about-cta">
+        <a class="btn primary" href="https://github.com/Cool-zimo" target="_blank" rel="noopener">去 GitHub 看看</a>
+        <span class="about-note">所有项目 MIT 开源 · 欢迎 issue 和 PR</span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="foot-in">
+    <span>© <span id="year">2026</span> Cool-zimo</span>
+    <span class="sep"></span>
+    <span>托管在 GitHub Pages · 无后端 · 无统计</span>
+  </div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
