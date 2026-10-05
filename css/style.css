@@ -48,26 +48,32 @@ p{margin:0}
 /* ================= 背景 ================= */
 .bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 
-.orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:.5;will-change:transform}
-.o1{width:620px;height:620px;left:-8%;top:-14%;background:radial-gradient(circle,var(--v),transparent 68%);animation:drift1 26s ease-in-out infinite}
-.o2{width:540px;height:540px;right:-6%;top:2%;background:radial-gradient(circle,var(--p),transparent 68%);animation:drift2 31s ease-in-out infinite}
-.o3{width:500px;height:500px;left:22%;top:38%;background:radial-gradient(circle,var(--c),transparent 70%);opacity:.32;animation:drift3 36s ease-in-out infinite}
-.o4{width:460px;height:460px;right:12%;top:52%;background:radial-gradient(circle,var(--o),transparent 70%);opacity:.26;animation:drift2 29s ease-in-out infinite reverse}
-.o5{width:560px;height:560px;left:38%;bottom:-16%;background:radial-gradient(circle,var(--g),transparent 72%);opacity:.2;animation:drift1 33s ease-in-out infinite reverse}
+.orb{
+  position:absolute;border-radius:50%;filter:blur(90px);
+  opacity:.5;will-change:transform;
+  /* --px/--py 由 JS 按鼠标位置写入（在 .bg 上），--k 是这一个光球的视差深度。
+     drift 动画的位移和鼠标位移在 keyframes 里用 calc 叠加，
+     否则后写的 transform 会把动画的位移整个冲掉。 */
+}
+.o1{width:620px;height:620px;left:-8%;top:-14%;--k:1.35;background:radial-gradient(circle,var(--v),transparent 68%);animation:drift1 26s ease-in-out infinite}
+.o2{width:540px;height:540px;right:-6%;top:2%;--k:.9;background:radial-gradient(circle,var(--p),transparent 68%);animation:drift2 31s ease-in-out infinite}
+.o3{width:500px;height:500px;left:22%;top:38%;--k:1.6;opacity:.32;background:radial-gradient(circle,var(--c),transparent 70%);animation:drift3 36s ease-in-out infinite}
+.o4{width:460px;height:460px;right:12%;top:52%;--k:.7;opacity:.26;background:radial-gradient(circle,var(--o),transparent 70%);animation:drift2 29s ease-in-out infinite reverse}
+.o5{width:560px;height:560px;left:38%;bottom:-16%;--k:1.15;opacity:.2;background:radial-gradient(circle,var(--g),transparent 72%);animation:drift1 33s ease-in-out infinite reverse}
 
 @keyframes drift1{
-  0%,100%{transform:translate(0,0) scale(1)}
-  33%{transform:translate(70px,50px) scale(1.12)}
-  66%{transform:translate(-40px,90px) scale(.94)}
+  0%,100%{transform:translate(calc(var(--px,0px) * var(--k,1)), calc(var(--py,0px) * var(--k,1))) scale(1)}
+  33%{transform:translate(calc(var(--px,0px) * var(--k,1) + 70px), calc(var(--py,0px) * var(--k,1) + 50px)) scale(1.12)}
+  66%{transform:translate(calc(var(--px,0px) * var(--k,1) - 40px), calc(var(--py,0px) * var(--k,1) + 90px)) scale(.94)}
 }
 @keyframes drift2{
-  0%,100%{transform:translate(0,0) scale(1)}
-  40%{transform:translate(-80px,60px) scale(1.1)}
-  75%{transform:translate(50px,-40px) scale(.96)}
+  0%,100%{transform:translate(calc(var(--px,0px) * var(--k,1)), calc(var(--py,0px) * var(--k,1))) scale(1)}
+  40%{transform:translate(calc(var(--px,0px) * var(--k,1) - 80px), calc(var(--py,0px) * var(--k,1) + 60px)) scale(1.1)}
+  75%{transform:translate(calc(var(--px,0px) * var(--k,1) + 50px), calc(var(--py,0px) * var(--k,1) - 40px)) scale(.96)}
 }
 @keyframes drift3{
-  0%,100%{transform:translate(0,0) scale(1)}
-  50%{transform:translate(90px,-70px) scale(1.15)}
+  0%,100%{transform:translate(calc(var(--px,0px) * var(--k,1)), calc(var(--py,0px) * var(--k,1))) scale(1)}
+  50%{transform:translate(calc(var(--px,0px) * var(--k,1) + 90px), calc(var(--py,0px) * var(--k,1) - 70px)) scale(1.15)}
 }
 
 .grid-lines{
@@ -384,8 +390,72 @@ main{position:relative;z-index:1}
   border-color:transparent;color:#fff;
   box-shadow:0 8px 22px -10px var(--c1,var(--v));
 }
-.cbtn.go:hover{filter:brightness(1.12);box-shadow:0 12px 28px -10px var(--c1,var(--v))}
+.cbtn.go:hover{box-shadow:0 12px 28px -10px var(--c1,var(--v))}
+/* 和 hero 主按钮同一道扫光。
+   注意 .card::after 已经被跟手光晕占用了，这里是按钮自己的伪元素，不冲突。
+   原来 hover 用 filter:brightness 提亮，会和扫光打架（整块变亮就看不见光带），去掉。 */
+.cbtn.go{position:relative;overflow:hidden}
+.cbtn.go::after{
+  content:"";position:absolute;top:0;bottom:0;left:-60%;width:45%;pointer-events:none;
+  background:linear-gradient(105deg,transparent,rgba(255,255,255,.42),transparent);
+  transform:skewX(-18deg);transition:left .6s var(--ease);
+}
+.cbtn.go:hover::after{left:115%}
 .cbtn svg{opacity:.85}
+
+/* ================= 时间线 ================= */
+.tl{list-style:none;margin:0 auto;padding:0;max-width:760px;position:relative}
+/* 那条竖线：渐变，两端淡出 */
+.tl::before{
+  content:"";position:absolute;left:15px;top:8px;bottom:8px;width:2px;
+  background:linear-gradient(180deg,transparent,var(--v) 8%,var(--p) 50%,var(--c) 88%,transparent);
+  opacity:.5;
+}
+.tl-item{position:relative;padding-left:48px;padding-bottom:26px}
+.tl-item:last-child{padding-bottom:0}
+.tl-dot{
+  position:absolute;left:6px;top:6px;width:20px;height:20px;border-radius:50%;
+  background:linear-gradient(135deg,var(--v),var(--p));
+  border:3px solid var(--bg);
+  box-shadow:0 0 0 3px rgba(124,92,255,.18),0 0 18px -4px var(--v);
+  transition:transform .3s var(--ease),box-shadow .3s;
+}
+.tl-item:hover .tl-dot{transform:scale(1.25);box-shadow:0 0 0 5px rgba(124,92,255,.2),0 0 24px -3px var(--p)}
+.tl-card{
+  padding:18px 22px;border-radius:var(--r);
+  background:linear-gradient(160deg,var(--glass2),var(--glass));
+  border:1px solid var(--line);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  transition:.28s var(--ease);
+}
+.tl-item:hover .tl-card{transform:translateX(4px);border-color:var(--line2);box-shadow:var(--shadow)}
+.tl-date{
+  display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.08em;
+  color:#c4b5fd;margin-bottom:5px;font-variant-numeric:tabular-nums;
+}
+.tl-card h3{font-size:17px;font-weight:700;margin-bottom:6px}
+.tl-card p{font-size:13.5px;color:var(--dim);line-height:1.72}
+.tl-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
+.tl-tag{
+  font-size:11.5px;padding:3.5px 10px;border-radius:999px;
+  background:var(--glass);border:1px solid var(--line);color:#a9b0c6;
+}
+
+/* 小工具分组 */
+.mini-group{margin-bottom:30px}
+.mini-group:last-child{margin-bottom:0}
+.mini-title{
+  display:flex;align-items:center;gap:10px;
+  font-size:13px;font-weight:650;color:#b9c0d4;
+  margin-bottom:13px;letter-spacing:.02em;
+}
+.mini-title::after{
+  content:"";flex:1;height:1px;
+  background:linear-gradient(90deg,var(--line),transparent);
+}
+.mini-title span{
+  font-size:11.5px;font-weight:500;color:var(--dim2);
+}
 
 /* ================= 小卡片 ================= */
 .minis{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:16px}

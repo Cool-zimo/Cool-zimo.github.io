@@ -31,9 +31,15 @@
       if (!Array.isArray(p.usage) || !p.usage.length) bad.push('PROJECTS[' + i + '] usage 为空');
     });
     window.MINIS.forEach((m, i) => {
-      ['name', 'icon', 'desc', 'repo'].forEach(k => {
+      ['name', 'icon', 'desc', 'repo', 'group'].forEach(k => {
         if (!m[k]) bad.push('MINIS[' + i + '](' + (m.name || '?') + ') 缺 ' + k);
       });
+    });
+    window.TIMELINE.forEach((t, i) => {
+      ['date', 'title', 'desc'].forEach(k => {
+        if (!t[k]) bad.push('TIMELINE[' + i + '] 缺 ' + k);
+      });
+      if (!Array.isArray(t.tags) || !t.tags.length) bad.push('TIMELINE[' + i + '] tags 为空');
     });
     window.STATS.forEach((s, i) => {
       if (s.n == null) bad.push('STATS[' + i + '] 缺 n');
@@ -146,32 +152,80 @@
     bindGlow(box, '.card');
   }
 
-  /* ================= 小卡片 ================= */
+  /* ================= 小卡片（按 group 分组） ================= */
   function renderMinis() {
     const box = $('#minis');
     if (!box) return;
     box.innerHTML = '';
-    window.MINIS.forEach((m, idx) => {
-      const card = el('div', 'mini reveal' + (m.live ? '' : ' nolink'));
-      card.style.setProperty('--mc', m.mc || '#7c5cff');
-      card.style.transitionDelay = (idx * 0.05) + 's';
 
-      const top = el('div', 'mini-top');
-      top.appendChild(el('div', 'mini-ico', m.icon));
-      top.appendChild(el('h3', null, m.name));
-      card.appendChild(top);
-      card.appendChild(el('p', null, m.desc));
-
-      const link = el('a', 'mini-link');
-      link.href = m.live || m.repo;
-      link.target = '_blank'; link.rel = 'noopener';
-      link.textContent = m.live ? '打开 →' : '看源码 →';
-      card.appendChild(link);
-
-      box.appendChild(card);
+    // 按 group 归堆，顺序沿用数据里的出现顺序（不要重排，那是刻意排的）
+    const groups = [];
+    const byName = {};
+    window.MINIS.forEach(m => {
+      if (!byName[m.group]) { byName[m.group] = []; groups.push(m.group); }
+      byName[m.group].push(m);
     });
+
+    let seq = 0;
+    groups.forEach(g => {
+      const sec = el('div', 'mini-group');
+      const title = el('div', 'mini-title');
+      title.appendChild(el('b', null, g));
+      title.appendChild(el('span', null, byName[g].length + ' 个'));
+      sec.appendChild(title);
+
+      const grid = el('div', 'minis');
+      byName[g].forEach(m => {
+        const card = el('div', 'mini reveal' + (m.live ? '' : ' nolink'));
+        card.style.setProperty('--mc', m.mc || '#7c5cff');
+        card.style.transitionDelay = (seq++ * 0.04) + 's';
+
+        const top = el('div', 'mini-top');
+        top.appendChild(el('div', 'mini-ico', m.icon));
+        top.appendChild(el('h3', null, m.name));
+        card.appendChild(top);
+        card.appendChild(el('p', null, m.desc));
+
+        const link = el('a', 'mini-link');
+        link.href = m.live || m.repo;
+        link.target = '_blank'; link.rel = 'noopener';
+        link.textContent = m.live ? '打开 →' : '看源码 →';
+        card.appendChild(link);
+
+        grid.appendChild(card);
+      });
+
+      sec.appendChild(grid);
+      box.appendChild(sec);
+    });
+
     observeReveal(box);
     bindGlow(box, '.mini');
+  }
+
+  /* ================= 时间线 ================= */
+  function renderTimeline() {
+    const box = $('#timeline-list');
+    if (!box) return;
+    box.innerHTML = '';
+    window.TIMELINE.forEach((t, i) => {
+      const li = el('li', 'tl-item reveal');
+      li.style.transitionDelay = (i * 0.06) + 's';
+      li.appendChild(el('div', 'tl-dot'));
+
+      const card = el('div', 'tl-card');
+      card.appendChild(el('span', 'tl-date', t.date));
+      card.appendChild(el('h3', null, t.title));
+      card.appendChild(el('p', null, t.desc));
+
+      const tags = el('div', 'tl-tags');
+      (t.tags || []).forEach(x => tags.appendChild(el('span', 'tl-tag', x)));
+      card.appendChild(tags);
+
+      li.appendChild(card);
+      box.appendChild(li);
+    });
+    observeReveal(box);
   }
 
   /* ================= 筛选 ================= */
@@ -276,6 +330,33 @@
     requestAnimationFrame(frame);
   }
 
+  /* ================= 光晕鼠标视差 ================= */
+  function initParallax() {
+    const bg = $('.bg');
+    if (!bg || reduce) return;
+    // 触屏没有悬停可言，pointermove 在触摸时会跳一下，直接跳过
+    if (window.matchMedia && window.matchMedia('(hover: none)').matches) return;
+
+    let raf = 0, tx = 0, ty = 0;
+    function apply() {
+      raf = 0;
+      bg.style.setProperty('--px', tx.toFixed(1) + 'px');
+      bg.style.setProperty('--py', ty.toFixed(1) + 'px');
+    }
+    window.addEventListener('pointermove', e => {
+      // 归一化到 -1..1，再放大成像素。值要小，大了就像页面在晃。
+      tx = (e.clientX / window.innerWidth - 0.5) * 2 * 26;
+      ty = (e.clientY / window.innerHeight - 0.5) * 2 * 18;
+      if (!raf) raf = requestAnimationFrame(apply);
+    }, { passive: true });
+
+    // 鼠标移出窗口就缓缓归位，不然光晕会僵在边缘
+    document.addEventListener('pointerleave', () => {
+      tx = 0; ty = 0;
+      if (!raf) raf = requestAnimationFrame(apply);
+    });
+  }
+
   /* ================= 进度条 + 吸顶 ================= */
   function initScroll() {
     const bar = $('#progress');
@@ -298,9 +379,11 @@
     renderStats();
     renderFilters();
     renderCards('全部');
+    renderTimeline();
     renderMinis();
     observeReveal(document);
     initStars();
+    initParallax();
     initScroll();
     const y = document.getElementById('year');
     if (y) y.textContent = String(new Date().getFullYear());
