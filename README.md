@@ -78,6 +78,29 @@ Jekyll 只对 `.md` 做 Markdown→HTML 转换，`.html` 里的 `# 标题` 原�
 1. 那个 URL 落到仓库里的那个文件，到底存在不存在
 2. 如果是 `.html`，里面是不是混进了 Markdown 语法（`sniff_md_in_html`）
 
+## 扫一遍所有站点
+
+```bash
+GH_TOKEN=xxx python3 tools/scan-pages.py
+```
+
+把所有开了 Pages 的仓库扫一遍，看根路径是不是真打得开。
+
+## 给源码仓库补落地页
+
+```bash
+GH_TOKEN=xxx python3 tools/make-landing.py <repo> [--live=<repo>=<在线地址>]
+```
+
+有些仓库开了 Pages，但根目录只有 README.md，没有首页 —— Pages 白开着，
+访问 `/` 直接 404，从搜索引擎点进来的人什么都看不到。
+
+这个脚本读 README，**在本地用 mistune 转成真正的 HTML** 再上传：
+
+```bash
+pip install mistune
+```
+
 ## 本地跑
 
 ```bash
