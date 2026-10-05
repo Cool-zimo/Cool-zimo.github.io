@@ -58,6 +58,21 @@ window.PROJECTS = [{
 必填：项目的 `name / icon / tagline / desc / status / live / repo / tag`、
 `feats`、`usage`；小卡的 `name / icon / desc / repo`。缺了控制台会报。
 
+## 改完记得查链接
+
+```bash
+GH_TOKEN=xxx python3 tools/check-links.py
+```
+
+查主页上每个 Pages 链接**是不是真打得开**。
+
+为什么需要它：只查 Pages 的 `status == built` 是不够的 —— 构建成功和根路径有内容是两回事。
+有一个文档仓库根目录只有 `README.md`，没有 `index.html` / `index.md`，
+Jekyll 没有首页可渲染，站点根路径照样 404，而 Pages 状态明明白白是 `built`。
+用户点开才发现。
+
+所以这个脚本查的是：那个 URL 落到仓库里的那个文件，到底存在不存在。
+
 ## 本地跑
 
 ```bash
