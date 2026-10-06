@@ -76,6 +76,26 @@ window.PROJECTS = [
     c1: '#fb923c', c2: '#ec4899',
   },
   {
+    name: 'FaceHub',
+    icon: '💬',
+    tagline: '像微信一样聊天，数据全在你自己的 GitHub 仓库里',
+    desc: '聊天、群聊、朋友圈、小程序，全都有 —— 但没有一行服务端代码。GitHub 只看到密文和公钥，永远看不到明文和私钥。端到端加密是真 E2E：ECDH（P-256）协商密钥，HKDF 派生，AES-GCM 加密，GCM 带认证标签，被篡改直接解密失败。',
+    status: '可用',
+    feats: [
+      '★ 真端到端加密：ECDH P-256 + HKDF + AES-GCM，GitHub 只持有公钥',
+      '两人从没"同时在线"也能协商出同一把密钥 —— 靠 ECDH 的数学性质',
+      '群聊 = 一个私有仓库，消息走 issue 评论，多人同发不会 409 冲突',
+      '朋友圈：点赞评论"一人一个文件"，天然并发安全，不需要 sha',
+      '小程序：同域 Pages 应用直接 iframe 进来，令牌同源共享免登录',
+      'AI 自动回复（智谱），五重防重复：已处理 id / 并发锁 / 基线时间戳',
+    ],
+    usage: ['Token 登录', '搜对方的 GitHub 名', '发消息（自动加密）', '群里直接拉人'],
+    live: 'https://cool-zimo.github.io/FaceHub/',
+    repo: 'https://github.com/Cool-zimo/FaceHub',
+    tag: '工具',
+    c1: '#07c160', c2: '#22d3ee',
+  },
+  {
     name: '粥粥记录 · WEEK OF WEEK',
     icon: '📚',
     tagline: '一周学了几节课，翻一下就知道',
@@ -137,6 +157,10 @@ window.MINIS = [
     name: '使用文档', icon: '📖', desc: '使用指南 + 插件开发 + API 参考，单独一个 Pages 站。',
     live: 'https://cool-zimo.github.io/github_drive_documentation/', repo: 'https://github.com/Cool-zimo/github_drive_documentation', mc: '#a78bfa' },
 
+  { group: 'FaceHub 生态',
+    name: '我的 FaceHub 主页', icon: '👤', desc: 'facehub-cool-zimo —— 个人主页仓库：昵称头像、ECDH 公钥、关注列表、朋友圈帖子。',
+    live: '', repo: 'https://github.com/Cool-zimo/facehub-cool-zimo', mc: '#07c160' },
+
   { group: '学习',
     name: 'Python 从零到进阶', icon: '🐍', desc: 'AnyLearn 的中文单本站，同样能在页面里跑代码、记笔记、排复习。',
     live: 'https://cool-zimo.github.io/python-tutorial/', repo: 'https://github.com/Cool-zimo/python-tutorial', mc: '#34d399' },
@@ -182,6 +206,9 @@ window.TIMELINE = [
   { date: '2026.09', title: 'AnyLearn · 通学万义',
     desc: '从 python-tutorial 长出来的教程站。用 Pyodide 让代码在浏览器里真跑，加艾宾浩斯复习调度和节奏守护，后来扩成 25 本教材中英双语。',
     tags: ['Pyodide', '艾宾浩斯', '25 本教材'] },
+  { date: '2026.09', title: 'FaceHub',
+    desc: '想看看 GitHub 能不能当聊天服务器用。最难的是端到端加密：两人从没同时在线，靠 ECDH 让双方算出同一把密钥 —— GitHub 从头到尾只持有公钥。后来长出了群聊、朋友圈和小程序。',
+    tags: ['E2E 加密', 'ECDH P-256', '零服务端'] },
   { date: '2026.10', title: 'CoverFit',
     desc: '图片裁切和转格式。连 BMP 和 ICO 的编码器都是自己写的 —— 浏览器根本不支持导出这两种格式，交给 toBlob 会静默退化成 PNG。',
     tags: ['Canvas', '自研编码器', '纯本地'] },
@@ -191,7 +218,7 @@ window.TIMELINE = [
 ];
 
 window.STATS = [
-  { n: 5,  label: '主打作品',   unit: '' },
+  { n: 6,  label: '主打作品',   unit: '' },
   { n: 25, label: 'AnyLearn 教材', unit: '' },
   { n: 33, label: '公开仓库',   unit: '' },
   { n: 0,  label: '后端服务器', unit: '' },
