@@ -76,6 +76,26 @@ window.PROJECTS = [
     c1: '#fb923c', c2: '#ec4899',
   },
   {
+    name: '粥粥记录 · WEEK OF WEEK',
+    icon: '📚',
+    tagline: '一周学了几节课，翻一下就知道',
+    desc: '一周两节英语、两节数学、一节语文 —— 口头记账谁也记不清，"上上周你欠我一个语文"说过就忘。所以把每节课落到具体日期上，按月看、按周看，欠多少自动算出来。照片存进你自己的 GitHub 私有仓库。',
+    status: '可用',
+    feats: [
+      '月视图：每格直接标"语 / 数 / 英"，没记录显示灰色的"无"',
+      '点日期开小窗：勾科目、写笔记、配照片佐证，可多张',
+      '周视图：七天卡片 + 进度条 + 往周账本，一眼看清完成和缺口',
+      '★ 本周说"还差"，往周才说"欠" —— 周二不该报"欠 1 节"',
+      '顶部横幅直接算账："还欠着：语文 欠 1 节"',
+      '照片自动压缩后传，存私有仓库 wow-data，不经过任何服务器',
+    ],
+    usage: ['Token 登录（自动建私有仓库）', '点上学的那天', '勾科目、传照片', '按周看欠了多少'],
+    live: 'https://cool-zimo.github.io/week-of-week/',
+    repo: 'https://github.com/Cool-zimo/week-of-week',
+    tag: '工具',
+    c1: '#f59e0b', c2: '#ef4444',
+  },
+  {
     name: 'CoverFit',
     icon: '◧',
     tagline: '图片格式转换与比例裁切，全在本地完成',
@@ -98,15 +118,6 @@ window.PROJECTS = [
 ];
 
 window.MINIS = [
-  { group: '文档',
-    name: 'COOL-DOC 文档站', icon: '📚', desc: '所有项目的文档集中在一个站里，中英双语，一个应用一个目录。',
-    live: 'https://cool-zimo.github.io/COOL-DOC/', repo: 'https://github.com/Cool-zimo/COOL-DOC', mc: '#a78bfa' },
-  { group: '文档',
-    name: 'AnyLearn 文档', icon: '🦉', desc: '格式规范、题型判分、怎么写书、评审发布。',
-    live: 'https://cool-zimo.github.io/COOL-DOC/al/', repo: 'https://github.com/Cool-zimo/COOL-DOC', mc: '#7c5cff' },
-  { group: '文档',
-    name: 'GitHub Drive 文档', icon: '📁', desc: '快速开始、用户指南、插件开发、常见问题。',
-    live: 'https://cool-zimo.github.io/COOL-DOC/github_drive/', repo: 'https://github.com/Cool-zimo/COOL-DOC', mc: '#22d3ee' },
   { group: 'GitHub Drive 生态',
     name: '桌面版（Electron）', icon: '🖥️', desc: '让插件能读写本地文件、执行系统命令，用权限模型兜住风险。',
     live: '', repo: 'https://github.com/Cool-zimo/github-drive-desktop', mc: '#7c5cff' },
@@ -124,7 +135,7 @@ window.MINIS = [
     live: '', repo: 'https://github.com/Cool-zimo/GD-Plugin-CoolClock', mc: '#22d3ee' },
   { group: 'GitHub Drive 生态',
     name: '使用文档', icon: '📖', desc: '使用指南 + 插件开发 + API 参考，单独一个 Pages 站。',
-    live: 'https://cool-zimo.github.io/COOL-DOC/github_drive/', repo: 'https://github.com/Cool-zimo/COOL-DOC', mc: '#a78bfa' },
+    live: 'https://cool-zimo.github.io/github_drive_documentation/', repo: 'https://github.com/Cool-zimo/github_drive_documentation', mc: '#a78bfa' },
 
   { group: '学习',
     name: 'Python 从零到进阶', icon: '🐍', desc: 'AnyLearn 的中文单本站，同样能在页面里跑代码、记笔记、排复习。',
@@ -134,7 +145,7 @@ window.MINIS = [
     live: '', repo: 'https://github.com/Cool-zimo/al-textbooks', mc: '#7c5cff' },
   { group: '学习',
     name: '第三方书籍索引', icon: '📇', desc: 'al-book 格式规范 + 收录索引，任何人都能提交自己的教材。',
-    live: 'https://cool-zimo.github.io/COOL-DOC/al/', repo: 'https://github.com/Cool-zimo/COOL-DOC', mc: '#22d3ee' },
+    live: 'https://cool-zimo.github.io/al-docs/', repo: 'https://github.com/Cool-zimo/al-docs', mc: '#22d3ee' },
 
   { group: '库与组件',
     name: 'tiny-md', icon: '📝', desc: '零依赖 Markdown + LaTeX 渲染器。先转义再生成标签，公式不用打 $ 也能渲染。',
@@ -171,17 +182,17 @@ window.TIMELINE = [
   { date: '2026.09', title: 'AnyLearn · 通学万义',
     desc: '从 python-tutorial 长出来的教程站。用 Pyodide 让代码在浏览器里真跑，加艾宾浩斯复习调度和节奏守护，后来扩成 25 本教材中英双语。',
     tags: ['Pyodide', '艾宾浩斯', '25 本教材'] },
-  { date: '2026.10', title: 'COOL-DOC',
-    desc: '文档散在四个仓库里，其中两个还是重复的、内容已经分叉。全部并进一个站：一个应用一个目录，中英双语，链接形如 COOL-DOC/al/文档名。',
-    tags: ['文档站', '中英双语', '目录式 URL'] },
   { date: '2026.10', title: 'CoverFit',
     desc: '图片裁切和转格式。连 BMP 和 ICO 的编码器都是自己写的 —— 浏览器根本不支持导出这两种格式，交给 toBlob 会静默退化成 PNG。',
     tags: ['Canvas', '自研编码器', '纯本地'] },
+  { date: '2026.10', title: '粥粥记录 · WEEK OF WEEK',
+    desc: '起因是"上上周你欠我一个语文"这种账根本记不清。把每节课落到日期上自动算账，还特意区分了措辞：本周没过完只能说"还差"，整周结束了才叫"欠"。',
+    tags: ['日历', '自动算账', '照片佐证'] },
 ];
 
 window.STATS = [
-  { n: 4,  label: '主打作品',   unit: '' },
+  { n: 5,  label: '主打作品',   unit: '' },
   { n: 25, label: 'AnyLearn 教材', unit: '' },
-  { n: 35, label: '公开仓库',   unit: '' },
+  { n: 33, label: '公开仓库',   unit: '' },
   { n: 0,  label: '后端服务器', unit: '' },
 ];
