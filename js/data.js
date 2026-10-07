@@ -13,6 +13,8 @@
  *   repo     源码地址
  *   tag      筛选分组
  *   c1 / c2  卡片主色 / 副色
+ *   story    来龙去脉：[{k: 小标题, v: 正文}]，渲染成卡片里可折叠的一段
+ *            v 里允许 <b> 和 <code>，会按 HTML 渲染（所以用 innerHTML，不是 textContent）
  */
 window.PROJECTS = [
   {
@@ -34,6 +36,12 @@ window.PROJECTS = [
     repo: 'https://github.com/Cool-zimo/al',
     tag: '学习',
     c1: '#7c5cff', c2: '#22d3ee',
+    story: [
+      { k: '起因', v: '学编程最大的问题不是看不懂，是记不住。一章看完，下周就忘。' },
+      { k: '转折', v: '发现 Pyodide 能在浏览器里跑真正的 Python —— 那就不是"教程"，是能动手的教程。改一行立刻看到结果，import math 随便用。' },
+      { k: '最难的', v: '判分引擎只按逗号切参数，不支持空格。因为 <code>hello world -&gt; 5</code> 这种单参数字符串会全废。这是两害相权，最后靠三层兜住：模板统一用逗号、校验器拦截、编辑器当场标黄。' },
+      { k: '还有一个坑', v: '随机题光判范围不够 —— <code>return 3</code> 每次都在 1~6 里，但不是随机。所以要检查是否真出现了多种不同的值。' },
+    ],
   },
   {
     name: 'GitHub Drive',
@@ -54,6 +62,12 @@ window.PROJECTS = [
     repo: 'https://github.com/Cool-zimo/github_drive',
     tag: '工具',
     c1: '#22d3ee', c2: '#34d399',
+    story: [
+      { k: '起因', v: '发现 GitHub API 其实能当文件系统用：几个仓库能合成一个网盘，用的人根本感觉不到文件分散在不同仓库。' },
+      { k: '转折', v: '一开始传 1GB 要 3 小时。查出来是每片固定 5.7 秒 —— 512KB 一片、每片 7 次 API 请求。改成动态分片 + 并发 + 一次提交后：<b>3 小时 14 分 → 2 分 17 秒</b>。' },
+      { k: '反直觉的', v: '片数越少越好。64MB 切 4 片比切 16 片快 3.5 倍 —— 每片那 1~2 秒固定开销是按片数付的，而单片变大后传输本身几乎不增加耗时。' },
+      { k: '最坑的', v: 'commit 固定 5.7 秒，提交 4 个文件和 64 个文件一样久。所以批次数要尽量少，不是文件数。' },
+    ],
   },
   {
     name: '仓鼠 Cangshu',
@@ -74,6 +88,11 @@ window.PROJECTS = [
     repo: 'https://github.com/Cool-zimo/cangshu',
     tag: '工具',
     c1: '#fb923c', c2: '#ec4899',
+    story: [
+      { k: '起因', v: '做着做着仓库越来越多，管理仓库本身也需要一个面板。' },
+      { k: '关键决定', v: '配置存在你自己的私有仓库 cangshu-config，换设备自动同步 —— 和其他应用同一套路，不多造一套。' },
+      { k: '白捡的', v: '右键文件能在 vscode.dev 里直接改，等于白捡一个在线 IDE，不用自己写编辑器。' },
+    ],
   },
   {
     name: 'FaceHub',
@@ -94,6 +113,12 @@ window.PROJECTS = [
     repo: 'https://github.com/Cool-zimo/FaceHub',
     tag: '工具',
     c1: '#07c160', c2: '#22d3ee',
+    story: [
+      { k: '起因', v: '想看看 GitHub 能不能当聊天服务器用。结论是能。' },
+      { k: '最难的', v: '端到端加密。两人从没"同时在线"，不可能像 WhatsApp 那样握手协商密钥。解法：各自把公钥写进仓库，双方用「自己私钥 + 对方公钥」算出<b>完全相同</b>的共享密钥。GitHub 从头到尾只有两个公钥，没有私钥就算不出来。' },
+      { k: '踩过的坑', v: '早期文档写的是 X25519，源码实际用 P-256。两者都是 ECDH，但曲线和公钥格式不同 —— 混用的后果是永远协商不出相同密钥，<b>而且不报错，只是解不开</b>。' },
+      { k: '两个巧思', v: '群聊 = 一个私有仓库，消息走 issue 评论，多人同时发言天然不会 409；朋友圈点赞"一人一个文件"，各写各的永不冲突。' },
+    ],
   },
   {
     name: '粥粥记录 · WEEK OF WEEK',
@@ -114,6 +139,11 @@ window.PROJECTS = [
     repo: 'https://github.com/Cool-zimo/week-of-week',
     tag: '工具',
     c1: '#f59e0b', c2: '#ef4444',
+    story: [
+      { k: '起因', v: '就是那句话：「上上周你欠我一个语文」。口头记账谁也记不清，说过就忘。' },
+      { k: '一个判断', v: '本周不说"欠"。今天才周二就报"欠 1 节"是假警报 —— 本周还有 5 天呢。所以本周用"还差"（中性），往周才用"欠"（红色）。<b>这个区分就是那句话的语义</b>：欠只对过完的周成立。' },
+      { k: '后来', v: '加了直接调摄像头拍照 —— 不用切到系统相机 App 拍完再切回来，拍几张笔记要来回切好几次很烦。' },
+    ],
   },
   {
     name: 'CoverFit',
@@ -134,6 +164,10 @@ window.PROJECTS = [
     repo: 'https://github.com/Cool-zimo/coverfit',
     tag: '工具',
     c1: '#ec4899', c2: '#7c5cff',
+    story: [
+      { k: '起因', v: '图片裁切和转格式，公众号 2.35:1、小红书 3:4 这些比例每次都要现算。' },
+      { k: '最难的', v: 'BMP 和 ICO。浏览器 toBlob 根本不支持导出这两种格式，会<b>静默退化成 PNG</b> —— 不报错，但导出的不是你要的格式。所以自己写了编码器：BMP 的行序是倒着的、每行要 4 字节对齐；ICO 其实是内嵌 PNG。' },
+    ],
   },
 ];
 
@@ -177,6 +211,9 @@ window.MINIS = [
   { group: '库与组件',
     name: 'fengjson', icon: '📦', desc: 'Python json 标准库的封装，生产级：完善的单元测试、报错与日志。',
     live: '', repo: 'https://github.com/Cool-zimo/fengjson', mc: '#34d399' },
+  { group: '库与组件',
+    name: 'gitstore.js', icon: '🧰', desc: '把 GitHub 当后端的轮子：自动加解密、自动管理仓库、多账号。从前面几个项目里抽出来的。',
+    live: 'https://cool-zimo.github.io/gitstore/', repo: 'https://github.com/Cool-zimo/gitstore', mc: '#a78bfa' },
 
   { group: '玩票',
     name: '修仙模拟器', icon: '🌿', desc: '纯前端文字修仙游戏，闭关、突破、渡劫，全在浏览器里。',

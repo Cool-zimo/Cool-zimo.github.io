@@ -142,6 +142,29 @@
       card.appendChild(top);
       card.appendChild(el('p', 'card-desc', p.desc));
       card.appendChild(ul);
+
+      // 来龙去脉：折叠着，想看再展开（默认是收起的，别一上来就糊一屏字）
+      if (p.story && p.story.length) {
+        const det = el('details', 'story');
+        det.appendChild(el('summary', null, '来龙去脉'));
+        const body = el('div', 'story-body');
+        p.story.forEach(it => {
+          const row = el('div', 'story-row');
+          row.appendChild(el('span', 'story-k', it.k));
+          const v = el('p', 'story-v');
+          /**
+           * ★ v 里有 <b> 和 <code>，所以用 innerHTML。
+           *   数据是自己在 data.js 里写死的，不是用户输入，没有注入风险。
+           *   如果以后改成从外部读，这里必须换回 textContent。
+           */
+          v.innerHTML = it.v;
+          row.appendChild(v);
+          body.appendChild(row);
+        });
+        det.appendChild(body);
+        card.appendChild(det);
+      }
+
       card.appendChild(usage);
       card.appendChild(acts);
       box.appendChild(card);
