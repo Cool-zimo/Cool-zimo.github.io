@@ -20,6 +20,31 @@
   const reduce = !!(window.matchMedia &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 
+  /**
+   * 卡片图标：有 iconImg 就用图片，没有就退回 emoji。
+   *
+   * ★ 为什么要保留 emoji 兜底：
+   *   只有 6 个主要作品配了图标，下面「更多」里的小工具、文档、库
+   *   仍然是 emoji（一场场做图不现实）。所以这里必须两种都支持，
+   *   不能因为加了图片就把 emoji 路径删掉。
+   */
+  function cardIcon(p) {
+    const box = el('div', 'card-icon');
+    if (p.iconImg) {
+      const img = document.createElement('img');
+      img.src = p.iconImg;
+      img.alt = '';
+      img.loading = 'lazy';           // 卡片在下方，别抢首屏带宽
+      img.width = 34; img.height = 34;
+      // 图挂了就退回 emoji，不留破图
+      img.onerror = () => { box.textContent = p.icon || ''; };
+      box.appendChild(img);
+    } else {
+      box.textContent = p.icon || '';
+    }
+    return box;
+  }
+
   /* ================= 自检：数据缺字段立刻报 ================= */
   function audit() {
     const bad = [];
@@ -109,7 +134,7 @@
       const titles = el('div', 'card-titles');
       titles.appendChild(el('h3', null, p.name));
       titles.appendChild(el('div', 'card-tagline', p.tagline));
-      top.appendChild(el('div', 'card-icon', p.icon));
+      top.appendChild(cardIcon(p));
       top.appendChild(titles);
       top.appendChild(el('span', 'status', p.status));
 

@@ -334,6 +334,17 @@ main{position:relative;z-index:1}
   50%{transform:translateY(-4px) rotate(-2.5deg)}
 }
 .card:hover .card-icon{transform:scale(1.07) rotate(3deg);animation-play-state:paused}
+/* 图标图片：转成白色剪影。
+   ★ 为什么不用彩色图标：
+     图标座本身是各卡不同的彩色渐变块（--c1/--c2），
+     彩色图标压在彩色底上会糊成一团；转成纯白线性剪影后，
+     形状清晰，而且和原来 emoji 的视觉重量一致 ——
+     区分度由渐变块颜色承担，不由图标颜色承担。 */
+.card-icon img{
+  width:30px;height:30px;display:block;object-fit:contain;
+  filter:brightness(0) invert(1);
+  opacity:.96;
+}
 .card-titles{flex:1;min-width:0}
 .card-titles h3{font-size:20.5px;font-weight:700;margin-bottom:4px}
 .card-tagline{font-size:13px;color:var(--dim)}

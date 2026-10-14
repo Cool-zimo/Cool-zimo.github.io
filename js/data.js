@@ -19,7 +19,7 @@
 window.PROJECTS = [
   {
     name: 'AnyLearn · 通学万义',
-    icon: '🦉',
+    iconImg: 'assets/icons/icon-anylearn-192.png', icon: '🦉',
     tagline: '会跑代码、会记笔记、会催你复习的编程教程',
     desc: '不是一个只能看的教程站。代码在浏览器里真实执行，笔记和进度写进你自己的 GitHub 私有仓库，学完的课按艾宾浩斯曲线自动排进复习队列。25 本教材，中英双语。',
     status: '持续更新',
@@ -45,7 +45,7 @@ window.PROJECTS = [
   },
   {
     name: 'GitHub Drive',
-    icon: '📁',
+    iconImg: 'assets/icons/icon-drive-192.png', icon: '📁',
     tagline: '把多个 GitHub 仓库合成一个云端硬盘',
     desc: '基于 GitHub API 的虚拟文件系统。关联几个仓库，在一个界面里管理所有文件，完全感觉不到文件其实分散在不同仓库。拖拽上传、一键分享、在线预览，纯前端零后端。',
     status: '可用',
@@ -71,7 +71,7 @@ window.PROJECTS = [
   },
   {
     name: '仓鼠 Cangshu',
-    icon: '🐹',
+    iconImg: 'assets/icons/icon-cangshu-192.png', icon: '🐹',
     tagline: '囤好你的每一个 GitHub 仓库',
     desc: '纯前端的 GitHub 仓库管理面板。卡片上直接看到可见性、语言、大小、Star、Pages 状态、最新 commit hash；文件树能递归浏览，右键还能直接丢进 vscode.dev 编辑。',
     status: '可用',
@@ -96,7 +96,7 @@ window.PROJECTS = [
   },
   {
     name: 'FaceHub',
-    icon: '💬',
+    iconImg: 'assets/icons/icon-facehub-192.png', icon: '💬',
     tagline: '像微信一样聊天，数据全在你自己的 GitHub 仓库里',
     desc: '聊天、群聊、朋友圈、小程序，全都有 —— 但没有一行服务端代码。GitHub 只看到密文和公钥，永远看不到明文和私钥。端到端加密是真 E2E：ECDH（P-256）协商密钥，HKDF 派生，AES-GCM 加密，GCM 带认证标签，被篡改直接解密失败。',
     status: '可用',
@@ -122,7 +122,7 @@ window.PROJECTS = [
   },
   {
     name: '粥粥记录 · WEEK OF WEEK',
-    icon: '📚',
+    iconImg: 'assets/icons/icon-wow-192.png', icon: '📚',
     tagline: '一周学了几节课，翻一下就知道',
     desc: '一周两节英语、两节数学、一节语文 —— 口头记账谁也记不清，"上上周你欠我一个语文"说过就忘。所以把每节课落到具体日期上，按月看、按周看，欠多少自动算出来。照片存进你自己的 GitHub 私有仓库。',
     status: '可用',
@@ -147,7 +147,7 @@ window.PROJECTS = [
   },
   {
     name: 'CoverFit',
-    icon: '◧',
+    iconImg: 'assets/icons/icon-coverfit-192.png', icon: '◧',
     tagline: '图片格式转换与比例裁切，全在本地完成',
     desc: '拖进来一张图，裁成任意比例，导出成想要的格式。11 种常用比例预设，连公众号封面 2.35:1 和小红书 3:4 都有。图片不上传服务器，断网也能用。',
     status: '可用',
